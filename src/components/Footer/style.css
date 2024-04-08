@@ -105,6 +105,7 @@ hr{
         background-color: transparent;
     }
     option{
-        background-color: #000;
+        background-color: transparent;
+        color: #000;
     }
 }
