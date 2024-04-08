@@ -29,6 +29,7 @@ const ProductGrid = () => {
   ];
 
   const [noProductsFound, setNoProductsFound] = useState(false);
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -39,6 +40,8 @@ const ProductGrid = () => {
         setFilteredProducts(data); // Initialize filtered products with all products
       } catch (error) {
         console.error("Failed to fetch products:", error);
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or failure
       }
     };
 
@@ -122,30 +125,39 @@ const ProductGrid = () => {
           <label for="customizable">CUSTOMIZABLE</label>
           </div>
           {filterOptions.map(({ name, label, options }) => (
-            <select className='left-sort-options' key={name} name={name} value={filters[name]} onChange={handlePriceChange}>
-              <option value="">{label}</option>
-              {options.map(option => (
-                <option key={option} value={option}>{option}</option>
-              ))}
-            </select>
-          ))}
+  <select className='left-sort-options' key={name} name={name} value={filters[name]} onChange={handlePriceChange}>
+    {label && <option value="">{label}</option>}
+    {options.map(option => (
+      option && <option key={option} value={option}>{option}</option>
+    ))}
+  </select>
+  ))}
+  
+  
         </div>
-
-          {noProductsFound ? (
-            <div className="no-products">
-              <p>No products found with the selected filters.</p>
+  
+          {loading ? (
+            <div className="spinner-container">
+              <div className="spinner"></div> {/* Loading indicator */}
             </div>
           ) : (
-            <div className="products-list">
-              {/* Display filtered products */}
-              {filteredProducts.map(product => (
-                <ProductCard key={product.id} {...product} />
-              ))}
-            </div>
+            noProductsFound ? (
+              <div className="no-products">
+                <p>No products found with the selected filters.</p>
+              </div>
+            ) : (
+              <div className="products-list">
+                {/* Display filtered products */}
+                {filteredProducts.map(product => (
+                  <ProductCard key={product.id} {...product} />
+                ))}
+              </div>
+            )
           )}
       </div>
     </div>
   );
+  
 };
 
 export default ProductGrid;
