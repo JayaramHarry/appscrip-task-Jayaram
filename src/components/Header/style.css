@@ -2,8 +2,7 @@ header {
     display: flex;
     flex-direction: column;
     padding: 10px 20px;
-    
-    /* background-color: #f0f0f0; */
+    border-bottom: 1px solid #E5E5E5;
   }
   nav{
     display: flex;
@@ -21,7 +20,8 @@ header {
  
   
   .logo {
-    width: 30px; /* Adjust size as needed */
+    width: 30px;
+    height: 30px;
     margin-right: 10px;
     color: #000000;
   }

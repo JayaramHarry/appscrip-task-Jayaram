@@ -101,7 +101,7 @@ const Footer = () => {
     <footer>
       <div className='subscribe-section'>
         <div className='search-section'>
-          <h4>BE THE FIRST TO KNOW</h4>
+          <h2>BE THE FIRST TO KNOW</h2>
           <p>sign up for updates from App Scrip</p>
           <div className='search-container'>
             <input className='search-input' type='search' placeholder='Enter your email..' />
@@ -109,10 +109,10 @@ const Footer = () => {
           </div>
         </div>
         <div className='call-us'>
-          <h4>CONTACT US</h4>
+          <h3>CONTACT US</h3>
           <p>+$$ 221 133 5380</p>
           <p>coustomercare@appscrip.com</p>
-          <h4>CURRENCY</h4>
+          <h3>CURRENCY</h3>
           <p className='currency-img-container'><img className='currency-img' src="/images/Currency_Flag.png" alt="currency-type" />*USD</p>
           <span>transaction will be completed in Euros and a currency reference is available on hover</span>
         </div>
@@ -147,7 +147,7 @@ const Footer = () => {
         ) : (
           <>
             <div>
-              <h4>App Scrip</h4>
+              <h3>App Scrip</h3>
               <p>About us</p>
               <p>Stories</p>
               <p>Artisans</p>
@@ -156,7 +156,7 @@ const Footer = () => {
               <p>EU Compliances Docs</p>
             </div>
             <div>
-              <h4>QUICK LINKS</h4>
+              <h3>QUICK LINKS</h3>
               <p>Orders & Shipping</p>
               <p>Join/Login as a Seller</p>
               <p>Payment & Pricing</p>
