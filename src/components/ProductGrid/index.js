@@ -18,14 +18,14 @@ const ProductGrid = () => {
   });
 
   const filterOptions = [
-    { name: "idealFor", label: "Ideal For", options: ["", "Men", "Women", "Baby & Kids"] },
-    { name: "occasion", label: "Occasion", options: ["", "Casual", "Formal"] },
-    { name: "work", label: "Work", options: ["", "Casual", "Formal"] },
-    { name: "fabric", label: "Fabric", options: ["", "Cotton", "Polyester"] },
-    { name: "segment", label: "Segment", options: ["", "Men's", "Women's"] },
-    { name: "suitableFor", label: "Suitable For", options: ["", "Indoor", "Outdoor"] },
-    { name: "rawMaterials", label: "Raw Materials", options: ["", "Leather", "Plastic"] },
-    { name: "pattern", label: "Pattern", options: ["", "Stripes", "Polka Dots"] }
+    { name: "idealFor", label: "Ideal For", options: ["Men", "Women", "Baby & Kids"] },
+    { name: "occasion", label: "Occasion", options: ["Casual", "Formal"] },
+    { name: "work", label: "Work", options: ["Casual", "Formal"] },
+    { name: "fabric", label: "Fabric", options: ["Cotton", "Polyester"] },
+    { name: "segment", label: "Segment", options: ["Men's", "Women's"] },
+    { name: "suitableFor", label: "Suitable For", options: ["Indoor", "Outdoor"] },
+    { name: "rawMaterials", label: "Raw Materials", options: ["Leather", "Plastic"] },
+    { name: "pattern", label: "Pattern", options: ["Stripes", "Polka Dots"] }
   ];
 
   const [noProductsFound, setNoProductsFound] = useState(false);
@@ -60,41 +60,19 @@ const ProductGrid = () => {
     setNoProductsFound(filtered.length === 0);
   }, [products, filters]);
 
-  // Handler functions to update filters
-  const handleCategoryChange = (event) => {
-    setFilters({ ...filters, category: event.target.value });
-  };
-
-  const handlePriceChange = (event) => {
-    const { name, value } = event.target;
-    setFilters({ ...filters, [name]: value });
-  };
-
   // Toggle function to show/hide filters
   const toggleFilters = () => {
     setFilters({ ...filters, showFilters: !filters.showFilters });
   };
 
-  // Handle filtering based on idealFor
-  const handleIdealForChange = (event) => {
-    const value = event.target.value;
-    setFilters({ ...filters, idealFor: value });
+  // Handle checkbox change for filters
+  const handleCheckboxChange = (name, value) => {
+    setFilters({ ...filters, [name]: value });
+  };
 
-    // Filter products based on idealFor
-    let filtered = products.filter(product => {
-      if (value === "") return true; // No filter applied
-
-      // Filter products based on the selected idealFor
-      if (value === "men") {
-        return product.category.toLowerCase().includes("men");
-      } else if (value === "women") {
-        return product.category.toLowerCase().includes("women");
-      } else if (value === "babyAndKids") {
-        return product.category.toLowerCase().includes("baby") || product.category.toLowerCase().includes("kids");
-      }
-    });
-
-    setFilteredProducts(filtered);
+  // Handle select box change for filters
+  const handleSelectChange = (name) => {
+    setFilters({ ...filters, [name]: !filters[name] });
   };
 
   return (
@@ -108,56 +86,69 @@ const ProductGrid = () => {
             {filters.showFilters ? "HIDE FILTERS" : "SHOW FILTERS"}
           </p>
         </div> 
-              <select>
-                <option disabled selected>RECOMMENDED:</option>
-                <option value="newest">Newest</option>
-                <option value="popular">Popular</option>
-                <option value="highToLow">Price: High to Low</option>
-                <option value="lowToHigh">Price: Low to High</option>
-              </select>
+        <select>
+          <option disabled selected>RECOMMENDED:</option>
+          <option value="newest">Newest</option>
+          <option value="popular">Popular</option>
+          <option value="highToLow">Price: High to Low</option>
+          <option value="lowToHigh">Price: Low to High</option>
+        </select>
       </div>
       <div className='sort-and-products'>
-          {/* Show filters section */}
-          <div className={filters.showFilters ? "filters show" : "filters"}>
+        {/* Show filters section */}
+        <div className={filters.showFilters ? "filters show" : "filters"}>
           {/* Filter options */}
           <div>
-          <input type="checkbox" id="customizable" name="customizable"/>
-          <label for="customizable">CUSTOMIZABLE</label>
-          </div>
+         <input type="checkbox" id="customizable" name="customizable"/>
+         <label for="customizable">CUSTOMIZABLE</label>
+         </div>
           {filterOptions.map(({ name, label, options }) => (
-  <select className='left-sort-options' key={name} name={name} value={filters[name]} onChange={handlePriceChange}>
-    {label && <option value="">{label}</option>}
-    {options.map(option => (
-      option && <option key={option} value={option}>{option}</option>
-    ))}
-  </select>
-  ))}
-  
-  
+            <div key={name} className='left-sort-options' >
+              
+              <p className='select-option'>{label}<select onClick={() => handleSelectChange(name)}></select></p>
+              <p>All</p>
+              {filters[name] && (
+                <div className="checkbox-options">
+                  <span className='unselect-all-option'>Unselect all</span>
+                  {options.map(option => (
+                    <div key={option} className="checkbox-option">
+                      <input
+                      className='checkbox'
+                        type="checkbox"
+                        id={option}
+                        name={name}
+                        value={option}
+                        onChange={(e) => handleCheckboxChange(name, e.target.value)}
+                      />
+                      <label htmlFor={option}>{option}</label>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-  
-          {loading ? (
-            <div className="spinner-container">
-              <div className="spinner"></div> {/* Loading indicator */}
+        {loading ? (
+          <div className="spinner-container">
+            <div className="spinner"></div> {/* Loading indicator */}
+          </div>
+        ) : (
+          noProductsFound ? (
+            <div className="no-products">
+              <p>No products found with the selected filters.</p>
             </div>
           ) : (
-            noProductsFound ? (
-              <div className="no-products">
-                <p>No products found with the selected filters.</p>
-              </div>
-            ) : (
-              <div className="products-list">
-                {/* Display filtered products */}
-                {filteredProducts.map(product => (
-                  <ProductCard key={product.id} {...product} />
-                ))}
-              </div>
-            )
-          )}
+            <div className="products-list">
+              {/* Display filtered products */}
+              {filteredProducts.map(product => (
+                <ProductCard key={product.id} {...product} />
+              ))}
+            </div>
+          )
+        )}
       </div>
     </div>
-  );
-  
+  );  
 };
 
 export default ProductGrid;
