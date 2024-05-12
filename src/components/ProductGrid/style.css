@@ -153,6 +153,23 @@
     .show{
       display: block;
     }
+    .products-list{
+      justify-content: center;
+    }
     
-    
+  }
+  
+@media screen and (max-width: 992px){
+  .product-count{
+    font-size: 13px;
+  }
+  .show-and-hide-filter{
+    font-size: 13px;
+  }
+  .left-sort-options{
+    font-size: 12px;
+  }
+  select{
+    font-size: 13px;
+  }
   }
