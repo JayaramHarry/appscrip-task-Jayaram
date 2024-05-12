@@ -37,4 +37,15 @@ button{
     .product-card{
         width: 40%;
     }
+    h3{
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 992px){
+    .product-card{
+        min-height: 350px;
+    }
+    h3{
+        font-size: 15px;
+    }
 }
