@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { WiDayCloudy } from 'react-icons/wi';
-import { FaHeart, FaShoppingCart } from 'react-icons/fa'; // Import heart and shopping cart icons
+import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import './style.css';
 
 const ProductCard = ({ image, title, price }) => {
