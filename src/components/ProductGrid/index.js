@@ -87,7 +87,7 @@ const ProductGrid = () => {
           </p>
         </div> 
         <select>
-          <option disabled selected>RECOMMENDED:</option>
+          <option  selected>RECOMMENDED:</option>
           <option value="newest">Newest</option>
           <option value="popular">Popular</option>
           <option value="highToLow">Price: High to Low</option>
