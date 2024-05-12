@@ -17,9 +17,10 @@ footer{
     display: flex;
     flex-direction: row;
     flex-grow: 1;    
-    width: 50%;
+    width: 100%;
 }
 .search-input{
+    min-width: 100%;
     outline: none;
     cursor: pointer;
 }
@@ -67,6 +68,7 @@ hr{
 @media screen and (max-width: 768px) {
     .subscribe-section{
         flex-direction: column;
+        font-size: 13px;
     }
     .search-section{
         border-bottom: 1px solid;
@@ -76,7 +78,7 @@ hr{
         font-size: 30px;
     }
     .search-container{
-        width: 100%;
+        width: 70%;
     }
     .search-input{
         width: 100%;
