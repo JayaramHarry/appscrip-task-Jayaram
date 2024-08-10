@@ -46,6 +46,7 @@
     border: none;
     outline: none;
     cursor: pointer;
+      text-align: end;
   }
   .sort-and-products {
     display: flex;
