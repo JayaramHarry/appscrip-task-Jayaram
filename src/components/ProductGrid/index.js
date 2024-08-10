@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../ProductCard';
+import { IoIosArrowDown } from "react-icons/io";
 import './style.css';
 
 const ProductGrid = () => {
@@ -15,6 +16,16 @@ const ProductGrid = () => {
     brand: '',
     size: '',
     showFilters: false, // Added state for showing filters
+    filterOptions: {
+      idealFor: [],
+      occasion: [],
+      work: [],
+      fabric: [],
+      segment: [],
+      suitableFor: [],
+      rawMaterials: [],
+      pattern: []
+    }
   });
 
   const filterOptions = [
@@ -67,12 +78,34 @@ const ProductGrid = () => {
 
   // Handle checkbox change for filters
   const handleCheckboxChange = (name, value) => {
-    setFilters({ ...filters, [name]: value });
+    const updatedOptions = filters.filterOptions[name];
+    const newOptions = updatedOptions.includes(value)
+      ? updatedOptions.filter(option => option !== value)
+      : [...updatedOptions, value];
+
+    setFilters({
+      ...filters,
+      filterOptions: {
+        ...filters.filterOptions,
+        [name]: newOptions
+      }
+    });
   };
 
   // Handle select box change for filters
   const handleSelectChange = (name) => {
     setFilters({ ...filters, [name]: !filters[name] });
+  };
+
+  // Unselect all filters
+  const handleUnselectAll = () => {
+    setFilters({
+      ...filters,
+      filterOptions: Object.keys(filters.filterOptions).reduce((acc, key) => {
+        acc[key] = [];
+        return acc;
+      }, {})
+    });
   };
 
   return (
@@ -87,7 +120,7 @@ const ProductGrid = () => {
           </p>
         </div> 
         <select>
-          <option  selected>RECOMMENDED:</option>
+          <option selected>RECOMMENDED:</option>
           <option value="newest">Newest</option>
           <option value="popular">Popular</option>
           <option value="highToLow">Price: High to Low</option>
@@ -99,25 +132,25 @@ const ProductGrid = () => {
         <div className={filters.showFilters ? "filters show" : "filters"}>
           {/* Filter options */}
           <div>
-         <input type="checkbox" id="customizable" name="customizable"/>
-         <label for="customizable">CUSTOMIZABLE</label>
-         </div>
+            <input type="checkbox" id="customizable" name="customizable"/>
+            <label htmlFor="customizable">CUSTOMIZABLE</label>
+          </div>
           {filterOptions.map(({ name, label, options }) => (
-            <div key={name} className='left-sort-options' >
-              
-              <p className='select-option'>{label}<select onClick={() => handleSelectChange(name)}></select></p>
+            <div key={name} className='left-sort-options'>
+              <p className='select-option'>{label}<span onClick={() => handleSelectChange(name)}><IoIosArrowDown/></span></p>
               <p>All</p>
               {filters[name] && (
                 <div className="checkbox-options">
-                  <span className='unselect-all-option'>Unselect all</span>
+                  <span className='unselect-all-option' onClick={handleUnselectAll}>Unselect all</span>
                   {options.map(option => (
                     <div key={option} className="checkbox-option">
                       <input
-                      className='checkbox'
+                        className='checkbox'
                         type="checkbox"
                         id={option}
                         name={name}
                         value={option}
+                        checked={filters.filterOptions[name].includes(option)}
                         onChange={(e) => handleCheckboxChange(name, e.target.value)}
                       />
                       <label htmlFor={option}>{option}</label>
